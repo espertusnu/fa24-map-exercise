@@ -1,4 +1,5 @@
-package hardcoded
+package imperative
+
 data class Location(val name: String, val connections: Map<String, String>)
 
 val locations: List<Location> = listOf(
@@ -42,6 +43,7 @@ val locations: List<Location> = listOf(
 )
 
 val map: Map<String, Location> = locations.associateBy { it.name }
+
 fun main() {
     var location: Location = locations.first()
     while (true) {
@@ -54,14 +56,14 @@ fun main() {
             println("Which way do you want to go?")
             val dir = readln()
             if (dir == "quit") return
-            if (dir !in location.connections.keys) {
+            val newLocationName = location.connections[dir]
+            if (newLocationName == null) {
                 println("You can't go in that direction.")
             } else {
-                newLocation = location.connections[dir]?.let {
-                    map[it]
-                }
+                newLocation = map[newLocationName]
                 if (newLocation == null) {
                     println("That location is not on the map yet.")
+                    newLocation = location // stay in current location
                 }
             }
         }
