@@ -4,28 +4,29 @@ import kotlin.system.exitProcess
 
 data class Location(val name: String, val connections: Map<String, String>)
 
-fun makeFunction(location: Location): () -> Unit = { ->
-    fun getInput() {
-        println("Which way do you want to go?")
-        when (val dir = readln()) {
-            "quit" -> exitProcess(0)
-            in location.connections -> run {
-                map[location.connections[dir]]?.let {
-                    it()
-                    return
-                } ?: println("That location is not on the map yet.")
-            }
-            else -> println("You can't go in that direction.")
+fun makeFunction(location: Location): () -> Unit =
+    fun() {
+        println("You are at ${location.name}.")
+        location.connections.forEach {
+            println("To the ${it.key} is ${it.value}.")
         }
-        getInput()
-    }
+        while (true) {
+            println("Which way do you want to go?")
+            when (val dir = readln()) {
+                "quit" -> exitProcess(0)
+                in location.connections -> run {
+                    map[location.connections[dir]]?.let {
+                        it()
+                        return
+                    } ?: println("That location is not on the map yet.")
+                }
 
-    println("You are at ${location.name}.")
-    location.connections.forEach {
-        println("To the ${it.key} is ${it.value}.")
+                else -> {
+                    println("You can't go in that direction.")
+                }
+            }
+        }
     }
-    getInput()
-}
 
 val locations: List<Location> = listOf(
     Location(
