@@ -1,32 +1,29 @@
-package fp
+package mapgame.oop
 
 import kotlin.system.exitProcess
 
-data class Location(val name: String, val connections: Map<String, String>)
-
-fun makeFunction(location: Location): () -> Unit =
-    fun() {
-        println("You are at ${location.name}.")
-        location.connections.forEach {
+class Location(val name: String, val connections: Map<String, String>) {
+    fun visit() {
+        println("You are at $name.")
+        connections.forEach {
             println("To the ${it.key} is ${it.value}.")
         }
         while (true) {
             println("Which way do you want to go?")
             when (val dir = readln()) {
                 "quit" -> exitProcess(0)
-                in location.connections -> run {
-                    map[location.connections[dir]]?.let {
-                        it()
+                in connections -> run {
+                    map[connections[dir]]?.let {
+                        it.visit()
                         return
                     } ?: println("That location is not on the map yet.")
                 }
 
-                else -> {
-                    println("You can't go in that direction.")
-                }
+                else -> println("You can't go in that direction.")
             }
         }
     }
+}
 
 val locations: List<Location> = listOf(
     Location(
@@ -48,13 +45,13 @@ val locations: List<Location> = listOf(
         "Orchard Meadow",
         mapOf(
             "east" to "Warren Olney",
-            "west" to "Orchard Meadow"
+            "southeast" to "GSB"
         )
     ),
     Location(
         "Richards Road",
         mapOf(
-            "east" to "Shuttle stop",
+            "east" to "Shuttle Stop",
             "south" to "Cowell",
             "north" to "GSB"
         )
@@ -63,15 +60,20 @@ val locations: List<Location> = listOf(
         "Cowell",
         mapOf(
             "north" to "Richards Road",
-            "northeast" to "Shuttle stop"
+            "northeast" to "Shuttle Stop"
+        )
+    ),
+    Location(
+        "Shuttle Stop",
+        mapOf(
+            "west" to "Richards Road",
+            "southwest" to "Cowell",
         )
     )
 )
 
-val map: Map<String, () -> Unit> = locations.associate {
-    Pair(it.name, makeFunction(it))
-}
+val map: Map<String, Location> = locations.associateBy { it.name }
 
 fun main() {
-    map.values.first()()
+    locations.first().visit()
 }

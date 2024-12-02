@@ -1,4 +1,4 @@
-package procedures
+package mapgame.procedures
 
 import kotlin.system.exitProcess
 
@@ -14,7 +14,12 @@ fun orchardMeadow() {
                 gsb()
                 return
             }
-            "east" -> println("That location is not on the map yet.")
+
+            "east" -> run {
+                warrenOlney()
+                return
+            }
+
             "quit" -> exitProcess(0)
             else -> println("You can't go that direction.")
         }
@@ -34,14 +39,31 @@ fun gsb() {
                 orchardMeadow()
                 return
             }
-            "northeast", "south" ->
-                println("That location is not on the map yet.")
+
+            "northeast" -> run {
+                warrenOlney()
+                return
+            }
+
+            "south" -> run {
+                richardsRoad()
+                return
+            }
+
             "quit" -> exitProcess(0)
             else -> println("You can't go that direction.")
         }
     }
 }
 
+fun warrenOlney() {
+    TODO("Implement Warren Olney")
+}
+
+fun richardsRoad() {
+    TODO("Implement Richards Road")
+}
+
 fun main() {
-   gsb()
+    gsb()
 }

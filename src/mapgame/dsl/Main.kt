@@ -1,4 +1,4 @@
-package dsl
+package mapgame.dsl
 
 import kotlin.system.exitProcess
 
@@ -64,6 +64,7 @@ class Location(val name: String, val connections: Map<String, String>) {
                 in connections -> getDestination(direction)?.let {
                     newLocation = it
                 } ?: println("That location isn't on the map yet.")
+
                 else -> println("You can't go in that direction.")
             }
         }

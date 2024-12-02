@@ -1,4 +1,4 @@
-package csv
+package mapgame.csv
 
 data class Location(val name: String, val connections: MutableMap<String, String>)
 
