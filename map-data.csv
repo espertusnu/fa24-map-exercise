@@ -1,0 +1,12 @@
+GSB, northwest, Orchard Meadow
+GSB, northeast, Warren Olney
+GSB, south, Richards Road
+Orchard Meadow, east, Warren Olney
+Orchard Meadow, southeast, GSB
+Warren Olney, southwest, GSB
+Warren Olney, west, Orchard Meadow
+Richards Road, east, Shuttle stop
+Richards Road, south, Cowell
+Richards Road, north, GSB
+Cowell, north, Richards Road
+Cowell, northeast, Shuttle stop
