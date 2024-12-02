@@ -41,11 +41,9 @@ class Location(val name: String, val connections: Map<String, String>) {
     }
 
     // The caller is responsible for making sure that direction is a key in connections.
-    // This will return the associated Location if it exists or null if it hasn't been
-    // added to the map.
-    private fun getDestination(direction: String): Location? {
-        val destName = connections[direction] ?: throw IllegalArgumentException(direction)
-        val destination = map[destName]
+    private fun getDestination(direction: String): Location {
+        val destName = connections.getValue(direction)
+        val destination = map.getValue(destName)
         return destination
     }
 
@@ -61,14 +59,11 @@ class Location(val name: String, val connections: Map<String, String>) {
             when (direction) {
                 "quit" -> exitProcess(0)
                 null -> println("Please enter a direction or quit.")
-                in connections -> getDestination(direction)?.let {
-                    newLocation = it
-                } ?: println("That location isn't on the map yet.")
-
+                in connections -> newLocation = getDestination(direction)
                 else -> println("You can't go in that direction.")
             }
         }
-        newLocation?.visit()
+        newLocation.visit()
     }
 }
 
